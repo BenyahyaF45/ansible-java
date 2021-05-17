@@ -1,0 +1,64 @@
+---
+- name: Remove all the Java related packages
+  command: dpkg-query -W -f='${binary:Package}\n' | grep -E -e '^(ia32-)?(sun|oracle)-java' -e '^openjdk-' -e '^icedtea' -e '^(default|gcj)-j(re|dk)' -e '^gcj-(.*)-j(re|dk)' -e '^java-common' | xargs sudo apt-get -y remove
+- name: unistall java
+  command: apt-get -y autoremove
+- name: unistall java
+  command: dpkg -l | grep ^rc | awk '{print($2)}' | xargs sudo apt-get -y purge
+- name: Remove Java config and cache directory
+  command: sudo bash -c 'ls -d /home/*/.java' | xargs sudo rm -rf
+- name: Remove Java entries
+  command: for g in ControlPanel java java_vm javaws jcontrol jexec keytool mozilla-javaplugin.so orbd pack200 policytool rmid rmiregistry servertool tnameserv unpack200 appletviewer apt extcheck HtmlConverter idlj jar jarsigner javac javadoc javah javap jconsole jdb jhat jinfo jmap jps jrunscript jsadebugd jstack jstat jstatd native2ascii rmic schemagen serialver wsgen wsimport xjc xulrunner-1.9-javaplugin.so; do sudo update-alternatives --remove-all $g; done
+
+# tasks file for java
+- name: Download java
+  get_url:
+    url: https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.11/sapmachine-jdk-11.0.11_linux-x64_bin.tar.gz
+    dest: /usr/java/
+
+- name: unzip java
+  unarchive:
+    src:  /usr/java/sapmachine-jdk-11.0.11_linux-x64_bin.tar.gz
+    dest: /usr/java/
+
+- name: Move java
+  command: mv /usr/java/sapmachine-jdk-11.0.11_linux-x64_bin.tar /usr/java/latest
+
+- name: export_java home
+  command: export JAVA_HOME=/usr/java/latest
+
+- name: java path
+  command: export PATH=$PATH:$JAVA_HOME/bin
+
+- name: java version
+  command: java -version
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,2 @@
+[node1]
+10.42.6.78 ansible_connection=ssh ansible_ssh_user=ansible
